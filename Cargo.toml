@@ -2,13 +2,12 @@
 name = "zipdfu"
 version = "0.1.0"
 edition = "2024"
-description = "Create Nordic nRF5 DFU .zip packages, compatible with `nrfutil pkg generate` and `adafruit-nrfutil dfu genpkg`"
+description = "Create legacy DFU .zip packages for Nordic nRF5 bootloaders, like `adafruit-nrfutil dfu genpkg`"
 
 [dependencies]
-anyhow = "1.0.100"
-clap = { version = "4.6", features = ["derive"] }
-p256 = { version = "0.14", default-features = false, features = ["ecdsa", "pem", "pkcs8", "std"] }
-sha2 = { version = "0.11", default-features = false }
-
-[dev-dependencies]
-zip = { version = "9", default-features = false }
+clap = { version = "4.6.7", features = ["derive"] }
+color-eyre = { version = "0.6.5", default-features = false }
+crc = "3.4.0"
+ihex = "3.0.0"
+serde_json = "1.0.154"
+zip = { version = "9.3.0", default-features = false }

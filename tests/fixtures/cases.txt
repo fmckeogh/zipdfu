@@ -1,45 +1,17 @@
-# Reference packages: `<name> <command>`, run in inputs/ with expected/<name>.zip appended.
-# "pkg generate" ran as `nrfutil pkg generate` (pc-nrfutil 6.1.7, CPython 3.10) and
-# "dfu genpkg" as `adafruit-nrfutil dfu genpkg` (0.5.3.post16, CPython 3.11).
-
-pkg_app                pkg generate --hw-version 52 --sd-req 0xB6 --application app.hex --application-version 1
-pkg_app_bin            pkg generate --hw-version 52 --sd-req 0x0100 --application app.bin --application-version 0x10203
-pkg_app_version_string pkg generate --hw-version 52 --sd-req 0xB6 --application app.hex --application-version-string 2.7.31
-pkg_app_octal          pkg generate --hw-version 052 --sd-req 0xB6 --application app.hex --application-version 010
-pkg_app_sd_req_list    pkg generate --hw-version 52 --sd-req 0xB6,0xCA,0x100,0xB6,0xFFFE --application app.hex --application-version 1
-pkg_app_debug          pkg generate --debug-mode --application app.hex
-pkg_app_external       pkg generate --external-app --hw-version 52 --application app.hex --application-version 3
-pkg_app_no_validation  pkg generate --hw-version 52 --sd-req 0xB6 --application app.hex --application-version 1 --app-boot-validation NO_VALIDATION
-pkg_app_sha256         pkg generate --hw-version 52 --sd-req 0xB6 --application app.hex --application-version 1 --app-boot-validation VALIDATE_GENERATED_SHA256
-pkg_app_utf8_name      pkg generate --hw-version 52 --sd-req 0xB6 --application app_ünï.hex --application-version 1
-pkg_app_mbr_gap        pkg generate --hw-version 52 --sd-req 0xB6 --application mbrgap.hex --application-version 1
-pkg_bl                 pkg generate --hw-version 52 --sd-req 0xB6 --bootloader bl.hex --bootloader-version 2
-pkg_sd                 pkg generate --hw-version 52 --sd-req 0x00 --softdevice sd.hex
-pkg_sd_early_s132      pkg generate --hw-version 52 --sd-req 0x81 --softdevice sd132.hex --sd-boot-validation VALIDATE_GENERATED_SHA256
-pkg_sd_bl              pkg generate --hw-version 52 --sd-req 0xB6 --softdevice sd.hex --bootloader bl.hex --bootloader-version 2
-pkg_sd_app             pkg generate --hw-version 52 --sd-req 0xB6 --sd-id 0xCA --softdevice sd.hex --application app.hex --application-version 1
-pkg_sd_bl_app          pkg generate --hw-version 52 --sd-req 0xB6 --sd-id 0xCA --softdevice sd.hex --bootloader bl.hex --bootloader-version 2 --application app.hex --application-version 1
-
-# Signed: signatures differ from run to run in nrfutil, so they are verified instead of compared.
-pkg_app_signed         pkg generate --hw-version 52 --sd-req 0xB6 --application app.hex --application-version 1 --key-file test_key.pem
-pkg_app_signed_pkcs8   pkg generate --hw-version 52 --sd-req 0xB6 --application app.bin --application-version 1 --key-file test_key_pkcs8.pem
-pkg_app_signed_params  pkg generate --hw-version 52 --sd-req 0xB6 --application app.hex --application-version 1 --key-file test_key_with_params.pem
-pkg_app_ecdsa          pkg generate --hw-version 52 --sd-req 0xB6 --application app.hex --application-version 1 --app-boot-validation VALIDATE_ECDSA_P256_SHA256 --key-file test_key.pem
-pkg_sd_bl_ecdsa        pkg generate --hw-version 52 --sd-req 0xB6 --softdevice sd.hex --bootloader bl.hex --bootloader-version 2 --sd-boot-validation VALIDATE_ECDSA_P256_SHA256 --key-file test_key.pem
-pkg_sd_bl_app_signed   pkg generate --hw-version 52 --sd-req 0xB6 --sd-id 0xCA --softdevice sd.hex --bootloader bl.hex --bootloader-version 2 --application app.hex --application-version 1 --key-file test_key.pem
-
-dfu_app                dfu genpkg --dev-type 0x0052 --application app.hex
-dfu_app_bin            dfu genpkg --dev-type 0x0052 --application app.bin
-dfu_app_defaults       dfu genpkg --application app.hex
-dfu_app_sd_req_list    dfu genpkg --dev-type 0x0052 --dev-revision 52840 --application-version 7 --sd-req 0xB6,0xCA,0xB6 --application app.hex
-dfu_app_none           dfu genpkg --dev-type none --dev-revision none --application-version none --sd-req none --application app.hex
-dfu_app_octal          dfu genpkg --dev-type 0052 --application app.hex
-dfu_app_utf8_name      dfu genpkg --application app_ünï.hex
-dfu_app_mbr_gap        dfu genpkg --application mbrgap.hex
-dfu_bl                 dfu genpkg --dev-type 0x0052 --bootloader bl.hex
-dfu_sd                 dfu genpkg --dev-type 0x0052 --softdevice sd.hex
-dfu_sd_early_s132      dfu genpkg --softdevice sd132.hex
-dfu_sd_bl              dfu genpkg --dev-type 0x0052 --dev-revision 52840 --softdevice sd.hex --bootloader bl.hex
-dfu_sd_bl_app          dfu genpkg --dev-type 0x0052 --softdevice sd.hex --bootloader bl.hex --application app.hex
-dfu_bl_app             dfu genpkg --dev-type 0x0052 --bootloader bl.hex --application app.hex
-dfu_ver_0_6            dfu genpkg --dev-type 0x0052 --dfu-ver 0.6 --application app.hex
+# Reference packages: `<name> <options>`. expected/<name>.zip was created in inputs/ with
+# `adafruit-nrfutil dfu genpkg <options> expected/<name>.zip` (adafruit-nrfutil 0.5.3.post16).
+app             --dev-type 0x0052 --application app.hex
+app_bin         --dev-type 0x0052 --application app.bin
+app_defaults    --application app.hex
+app_sd_req_list --dev-type 0x0052 --dev-revision 52840 --application-version 7 --sd-req 0xB6,0xCA,0xB6 --application app.hex
+app_none        --dev-type none --dev-revision none --application-version none --sd-req none --application app.hex
+app_octal       --dev-type 0052 --application app.hex
+app_utf8_name   --application app_ünï.hex
+app_mbr_gap     --application mbrgap.hex
+app_dfu_ver_0_6 --dev-type 0x0052 --dfu-ver 0.6 --application app.hex
+bl              --dev-type 0x0052 --bootloader bl.hex
+bl_app          --dev-type 0x0052 --bootloader bl.hex --application app.hex
+sd              --dev-type 0x0052 --softdevice sd.hex
+sd_early_s132   --softdevice sd132.hex
+sd_bl           --dev-type 0x0052 --dev-revision 52840 --softdevice sd.hex --bootloader bl.hex
+sd_bl_app       --dev-type 0x0052 --softdevice sd.hex --bootloader bl.hex --application app.hex
